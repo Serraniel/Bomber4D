@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8AB49965-E15A-439B-8EDE-1402949E36AB}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Bomber4D.Client.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Bomber4D_Client">
+        <MSBuild Projects="Bomber4D.Client.dproj"/>
+    </Target>
+    <Target Name="Bomber4D_Client:Clean">
+        <MSBuild Projects="Bomber4D.Client.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Bomber4D_Client:Make">
+        <MSBuild Projects="Bomber4D.Client.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Bomber4D_Client"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Bomber4D_Client:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Bomber4D_Client:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
