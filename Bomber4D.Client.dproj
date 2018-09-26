@@ -138,6 +138,11 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\Bomber4D.Classes.pas"/>
+        <DCCReference Include="src\Bomber4D.GameEngine.pas"/>
+        <RcItem Include="resources\sprites.png">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>SPRITES</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -164,6 +169,12 @@
                 <DeployFile LocalName="bin\Win32\Debug\Bomber4D.Client.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Bomber4D_Client.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="resources\sprites.png" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
