@@ -139,6 +139,7 @@
         </DCCReference>
         <DCCReference Include="src\Bomber4D.Classes.pas"/>
         <DCCReference Include="src\Bomber4D.GameEngine.pas"/>
+        <DCCReference Include="src\Bomber4D.GameRenderer.pas"/>
         <RcItem Include="resources\sprites.png">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>SPRITES</ResourceId>
