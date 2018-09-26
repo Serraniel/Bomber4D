@@ -3,7 +3,7 @@ program Bomber4D.Client;
 uses
   Vcl.Forms,
   MainForm in 'src\MainForm.pas' {FrmMain},
-  BMClasses in 'src\BMClasses.pas';
+  Bomber4D.Classes in 'src\Bomber4D.Classes.pas';
 
 {$R *.res}
 
