@@ -12,13 +12,14 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
-  Bomber4D.GameEngine;
+  Bomber4D.GameRenderer,
+  Vcl.ExtCtrls;
 
 type
   TFrmMain = class(TForm)
+    pnlGame: TBMGamePanel;
     procedure FormShow(Sender: TObject);
   private
-    FGameEngine: TBMGameEngine;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -36,19 +37,17 @@ constructor TFrmMain.Create(AOwner: TComponent);
 begin
   inherited;
 
-  FGameEngine := TBMGameEngine.Create;
 end;
 
 destructor TFrmMain.Destroy;
 begin
-  FreeAndNil(FGameEngine);
 
   inherited;
 end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
 begin
-  FGameEngine.Init;
+  pnlGame.Init;
 end;
 
 end.

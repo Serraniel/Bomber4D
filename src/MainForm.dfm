@@ -14,4 +14,16 @@ object FrmMain: TFrmMain
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object pnlGame: TBMGamePanel
+    Left = 0
+    Top = 0
+    Width = 852
+    Height = 411
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 128
+    ExplicitTop = 80
+    ExplicitWidth = 585
+    ExplicitHeight = 241
+  end
 end
