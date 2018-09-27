@@ -1,4 +1,4 @@
-unit Bomber4D.GameEngine;
+﻿unit Bomber4D.GameEngine;
 
 interface
 
@@ -16,6 +16,8 @@ type
   protected
   public
     procedure Init;
+
+    property Board: TBoard read FBoard;
   end;
 
 implementation
@@ -44,18 +46,20 @@ begin
       raise Exception.CreateFmt('Invalid map height [%d].', [AData.Count]);
 
     SetLength(FBoard, AData.Count);
-    ACheckSquareLength := length(AData[0]);
+
+    // string rows are 1 char longer than original file.... thanks delphi for...reasons?  👀
+    ACheckSquareLength := length(AData[0]) + 1;
 
     // initialize rows
     for row := 0 to AData.Count - 1 do
     begin
-      if length(AData[row]) <> ACheckSquareLength then
+      if length(AData[row]) + 1 <> ACheckSquareLength then
         raise Exception.CreateFmt('Invalid map width [%d / %d].',
           [ACheckSquareLength, length(AData[row])]);
 
       SetLength(FBoard[row], ACheckSquareLength);
       // intialize column values
-      for col := 0 to ACheckSquareLength - 1 do
+      for col := 0 to ACheckSquareLength do
       begin
         FBoard[row, col] := AData[row][col];
       end;
