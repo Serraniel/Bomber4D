@@ -57,7 +57,6 @@ var
   col: Integer;
   AStream: TResourceStream;
   ASpriteMap: Tpicture;
-  c: Integer;
   ASpriteCol: Integer;
   ASpriteRow: Integer;
   ASpritBitMap: TBitmap;
@@ -83,11 +82,11 @@ begin
     begin
       for col := 0 to AColCount - 1 do
       begin
-        c := ord(FGameEngine.Board[row][col]) - 1; // map ist 1 basiert
+        // c := FGameEngine.Board[row][col].SpriteIndex;
 
         // extract image
-        ASpriteCol := c mod 16;
-        ASpriteRow := c div 16;
+        ASpriteCol := FGameEngine.Board[row][col].SpriteIndex.X;
+        ASpriteRow := FGameEngine.Board[row][col].SpriteIndex.Y;
 
         Canvas.CopyRect(Rect(col * 32, row * 32, col * 32 + 32, row * 32 + 32), ASpritBitMap.Canvas,
           Rect(ASpriteCol * 16, ASpriteRow * 16, ASpriteCol * 16 + 16, ASpriteRow * 16 + 16));
