@@ -34,7 +34,10 @@ type
 
   TBMElementClass = class of TBMElement;
 
-  TBMElementClassList = TList<TBMElementClass>;
+  TBMElementClassList = class(TList<TBMElementClass>)
+  public
+    function ElementClassByID(ElementID: UInt32): TBMElementClass;
+  end;
 
   TBMBackground = class(TBMElement)
   public
@@ -72,6 +75,13 @@ type
   TBMObstacle = class(TBMGameElement)
   public
     function HitType: TBMHitType; override;
+  end;
+
+  TBMBox = class(TBMGameElement)
+  public
+    class function MapInitializationID: UInt32; override;
+
+    function SpriteIndex: TPoint; override;
   end;
 
   TBMWall = class(TBMGameElement)
@@ -121,10 +131,12 @@ var
 
 function GlobalMapElements: TBMElementClassList;
 begin
-  Result := __GlobalMapElements;
+  if not Assigned(__GlobalMapElements) then
+  begin
+    __GlobalMapElements := TBMElementClassList.Create;
+  end;
 
-  if not Assigned(Result) then
-    Result := TBMElementClassList.Create;
+  Result := __GlobalMapElements;
 end;
 
 { TBMCharacter }
@@ -273,13 +285,37 @@ begin
   Result := Point(11, 5);
 end;
 
+{ TBMElementClassList }
+
+function TBMElementClassList.ElementClassByID(ElementID: UInt32): TBMElementClass;
+var
+  i: Integer;
+begin
+  Result := nil;
+
+  for i := 0 to Count - 1 do
+    if Items[i].MapInitializationID = ElementID then
+      exit(Items[i]);
+end;
+
+{ TBMBox }
+
+class function TBMBox.MapInitializationID: UInt32;
+begin
+  Result := $5B;
+end;
+
+function TBMBox.SpriteIndex: TPoint;
+begin
+  Result := Point(10, 5);
+end;
+
 initialization
 
 GlobalMapElements.Add(TBMDirt);
 GlobalMapElements.Add(TBMGrass);
-GlobalMapElements.Add(TBMPlayer);
 GlobalMapElements.Add(TBMWall);
 GlobalMapElements.Add(TBMWall2);
-GlobalMapElements.Add(TBMBomb);
+GlobalMapElements.Add(TBMBox);
 
 end.
