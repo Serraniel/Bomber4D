@@ -25,6 +25,7 @@ type
 
     function HitType: TBMHitType; virtual; abstract;
     function SpriteIndex: TPoint; virtual;
+    function SpriteID: UInt32;
 
     procedure Simulate(ATickCount: UInt32); virtual;
 
@@ -68,8 +69,13 @@ type
   end;
 
   TBMPlayer = class(TBMCharacter)
+  private
+    FPlayerID: UInt32;
   public
     function SpriteIndex: TPoint; override;
+
+    property PlayerID: UInt32 read FPlayerID write FPlayerID;
+    property Location: TPoint read FLocation write FLocation;
   end;
 
   TBMObstacle = class(TBMGameElement)
@@ -150,7 +156,7 @@ end;
 
 function TBMPlayer.SpriteIndex: TPoint;
 begin
-
+  Result := Point(0, 2 + FPlayerID);
 end;
 
 { TBMObstacle }
@@ -230,6 +236,11 @@ end;
 procedure TBMElement.Simulate(ATickCount: UInt32);
 begin
   // do nothing
+end;
+
+function TBMElement.SpriteID: UInt32;
+begin
+  Result := SpriteIndex.X + SpriteIndex.Y * 16;
 end;
 
 function TBMElement.SpriteIndex: TPoint;
