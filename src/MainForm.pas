@@ -19,6 +19,7 @@ type
   TFrmMain = class(TForm)
     GameController: TBMGameController;
     procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
   public
     constructor Create(AOwner: TComponent); override;
@@ -43,6 +44,11 @@ destructor TFrmMain.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TFrmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  GameController.HandleKeyCode(Key, Shift);
 end;
 
 procedure TFrmMain.FormShow(Sender: TObject);

@@ -9,6 +9,7 @@ uses
 type
 
   TBMHitType = (htNone, htStatic, htMovable);
+  TBMDirection = (dUp, dRight, dDown, dLeft);
 
   IExplodable = interface
     procedure Explode;
@@ -64,20 +65,29 @@ type
   end;
 
   TBMCharacter = class(TBMGameElement)
-  public
-    function HitType: TBMHitType; override;
-  end;
-
-  TBMPlayer = class(TBMCharacter)
   private
     FPlayerID: UInt32;
+    FViewDirection: TBMDirection;
   public
-    function SpriteIndex: TPoint; override;
+    function HitType: TBMHitType; override;
+
+    procedure Move(ADirection: TBMDirection);
 
     property PlayerID: UInt32 read FPlayerID write FPlayerID;
     property Location: TPoint read FLocation write FLocation;
+    property ViewDirection: TBMDirection read FViewDirection write FViewDirection;
   end;
 
+  // do not use yet
+  TBMNpc = class(TBMCharacter)
+  end;
+
+  TBMPlayer = class(TBMCharacter)
+  public
+    function SpriteIndex: TPoint; override;
+  end;
+
+  // do not use yet
   TBMObstacle = class(TBMGameElement)
   public
     function HitType: TBMHitType; override;
@@ -104,11 +114,13 @@ type
     function SpriteIndex: TPoint; override;
   end;
 
+  // do not use yet
   TBMItem = class(TBMGameElement)
   public
     function HitType: TBMHitType; override;
   end;
 
+  // do not use yet
   TBMBomb = class(TBMGameElement)
   private
     FOwnerGuid: string;
@@ -152,11 +164,41 @@ begin
   Result := htNone;
 end;
 
+procedure TBMCharacter.Move(ADirection: TBMDirection);
+begin
+  case ADirection of
+    dUp:
+      dec(FLocation.Y, 1);
+    dRight:
+      inc(FLocation.X, 1);
+    dDown:
+      dec(FLocation.Y, -1);
+    dLeft:
+      inc(FLocation.X, -1);
+  end;
+
+  FViewDirection := ADirection;
+end;
+
 { TBMPlayer }
 
 function TBMPlayer.SpriteIndex: TPoint;
+var
+  AViewColOffset: Integer;
 begin
-  Result := Point(0, 2 + FPlayerID);
+  AViewColOffset := 0;
+  case FViewDirection of
+    dUp:
+      AViewColOffset := 0;
+    dRight:
+      AViewColOffset := 4;
+    dDown:
+      AViewColOffset := 1;
+    dLeft:
+      AViewColOffset := 4; // whoops, we have no left sprite :(
+  end;
+
+  Result := Point(0 + AViewColOffset, 2 + FPlayerID);
 end;
 
 { TBMObstacle }

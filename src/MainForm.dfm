@@ -4,13 +4,16 @@ object FrmMain: TFrmMain
   Caption = 'Bomber4D'
   ClientHeight = 411
   ClientWidth = 852
-  Color = clBtnFace
+  Color = clWindow
+  Ctl3D = False
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13

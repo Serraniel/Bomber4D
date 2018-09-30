@@ -29,6 +29,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
+    procedure HandleKeyCode(Key: Word; Shift: TShiftState);
+
     procedure Init; virtual;
   published
     { Published-Deklarationen }
@@ -40,7 +42,8 @@ implementation
 
 uses
   System.Types,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage,
+  Winapi.Windows;
 
 procedure Register;
 begin
@@ -67,19 +70,72 @@ begin
   inherited;
 end;
 
+procedure TBMGameController.HandleKeyCode(Key: Word; Shift: TShiftState);
+var
+  AWasHandled: Boolean;
+begin
+  AWasHandled := false;
+
+  // player 1 movement
+  if Key = VK_UP then
+  begin
+    FPlayerFirst.Move(dUp);
+    AWasHandled := true;
+  end
+  else if Key = VK_RIGHT then
+  begin
+    FPlayerFirst.Move(dRight);
+    AWasHandled := true;
+  end
+  else if Key = VK_DOWN then
+  begin
+    FPlayerFirst.Move(dDown);
+    AWasHandled := true;
+  end
+  else if Key = VK_LEFT then
+  begin
+    FPlayerFirst.Move(dLeft);
+    AWasHandled := true;
+  end
+  // player 2 movement
+  else if Key = ord('W') then
+  begin
+    FPlayerSecond.Move(dUp);
+    AWasHandled := true;
+  end
+  else if Key = ord('D') then
+  begin
+    FPlayerSecond.Move(dRight);
+    AWasHandled := true;
+  end
+  else if Key = ord('S') then
+  begin
+    FPlayerSecond.Move(dDown);
+    AWasHandled := true;
+  end
+  else if Key = ord('A') then
+  begin
+    FPlayerSecond.Move(dLeft);
+    AWasHandled := true;
+  end;
+
+  if AWasHandled then
+    Invalidate;
+end;
+
 procedure TBMGameController.Init;
 var
   AStream: TResourceStream;
   ASpriteMap: TPicture;
-  ASpriteBitMap: TBitMap;
+  ASpriteBitMap: Vcl.Graphics.TBitMap;
   row: Integer;
   col: Integer;
-  ASprite: TBitMap;
+  ASprite: Vcl.Graphics.TBitMap;
 begin
   // Loading sprites
   AStream := TResourceStream.Create(HInstance, 'SPRITES', RT_RCDATA);
   ASpriteMap := TPicture.Create;
-  ASpriteBitMap := TBitMap.Create;
+  ASpriteBitMap := Vcl.Graphics.TBitMap.Create;
   try
     ASpriteMap.LoadFromStream(AStream);
     ASpriteBitMap.Assign(ASpriteMap.Graphic);
@@ -88,7 +144,7 @@ begin
     begin
       for col := 0 to (ASpriteBitMap.Width div 16) - 1 do
       begin
-        ASprite := TBitMap.Create;
+        ASprite := Vcl.Graphics.TBitMap.Create;
         try
           ASprite.Width := 16;
           ASprite.Height := 16;
@@ -112,9 +168,11 @@ begin
   // initializing players
   FPlayerFirst.PlayerID := 1;
   FPlayerFirst.Location := Point(1, 1);
+  FPlayerFirst.ViewDirection := dDown;
 
   FPlayerSecond.PlayerID := 2;
   FPlayerSecond.Location := Point(13, 11);
+  FPlayerSecond.ViewDirection := dUp;
 
   // initializing board
   FGameEngine.Init;
