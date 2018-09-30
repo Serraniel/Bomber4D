@@ -106,6 +106,7 @@
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppEnableHighDPI>true</AppEnableHighDPI>
@@ -140,14 +141,14 @@
         <DCCReference Include="src\Bomber4D.Classes.pas"/>
         <DCCReference Include="src\Bomber4D.GameBoard.pas"/>
         <DCCReference Include="src\Bomber4D.GameController.pas"/>
-        <RcItem Include="resources\sprites.png">
-            <ResourceType>RCDATA</ResourceType>
-            <ResourceId>SPRITES</ResourceId>
-        </RcItem>
         <RcItem Include="resources\map.dat">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>MAP</ResourceId>
+        </RcItem>
+        <RcItem Include="resources\sprites.png">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>SPRITES</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

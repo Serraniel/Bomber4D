@@ -14,7 +14,6 @@ uses
 type
   TBMSpriteDictionary = TObjectDictionary<UInt32, TBitMap>;
 
-
 type
   TBMGameController = class(TPanel)
   private
@@ -36,7 +35,7 @@ procedure Register;
 implementation
 
 uses
-  System.Types;
+  System.Types, Vcl.Imaging.pngimage;
 
 procedure Register;
 begin
@@ -116,31 +115,31 @@ var
 begin
   inherited;
 
-  if not (csDesigning in ComponentState) then
-                                      begin
-  if Length(FGameEngine.Board) = 0 then
-    raise Exception.CreateFmt('Invalid map height [%d].', [FGameEngine.Board]);
-
-  AColCount := Length(FGameEngine.Board[0]);
-
-  if AColCount = 0 then
-    raise Exception.CreateFmt('Invalid map width [%d].', [AColCount]);
-
-  for row := 0 to Length(FGameEngine.Board) - 1 do
+  if not(csDesigning in ComponentState) then
   begin
-    for col := 0 to AColCount - 1 do
+    if Length(FGameEngine.Board) = 0 then
+      raise Exception.CreateFmt('Invalid map height [%d].', [FGameEngine.Board]);
+
+    AColCount := Length(FGameEngine.Board[0]);
+
+    if AColCount = 0 then
+      raise Exception.CreateFmt('Invalid map width [%d].', [AColCount]);
+
+    for row := 0 to Length(FGameEngine.Board) - 1 do
     begin
-      // extract image
-      ASpriteCol := FGameEngine.Board[row][col].SpriteIndex.X;
-      ASpriteRow := FGameEngine.Board[row][col].SpriteIndex.Y;
+      for col := 0 to AColCount - 1 do
+      begin
+        // extract image
+        ASpriteCol := FGameEngine.Board[row][col].SpriteIndex.X;
+        ASpriteRow := FGameEngine.Board[row][col].SpriteIndex.Y;
 
-      ASpriteID := ASpriteRow * 16 + ASpriteCol;
+        ASpriteID := ASpriteRow * 16 + ASpriteCol;
 
-      Canvas.CopyRect(Rect(col * 32, row * 32, col * 32 + 32, row * 32 + 32),
-        FSpriteDictionary.Items[ASpriteID].Canvas, Rect(0, 0, 16, 16));
+        Canvas.CopyRect(Rect(col * 32, row * 32, col * 32 + 32, row * 32 + 32),
+          FSpriteDictionary.Items[ASpriteID].Canvas, Rect(0, 0, 16, 16));
+      end;
     end;
   end;
-                                      end;
 end;
 
 end.

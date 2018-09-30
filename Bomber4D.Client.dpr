@@ -1,5 +1,7 @@
 program Bomber4D.Client;
 
+
+
 {$R *.dres}
 
 uses

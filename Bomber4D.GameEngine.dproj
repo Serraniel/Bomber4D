@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Base>True</Base>
         <AppType>Package</AppType>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>Bomber4D.GameEngine.dpk</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -40,6 +40,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <SanitizedProjectName>Bomber4D_GameEngine</SanitizedProjectName>
         <DCC_BplOutput>.\bin\$(Platform)\$(Config)</DCC_BplOutput>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <DCC_DcuOutput>.\bin\$(Platform)\$(Config)</DCC_DcuOutput>
@@ -93,14 +94,14 @@
         <DCCReference Include="src\Bomber4D.GameController.pas"/>
         <DCCReference Include="src\Bomber4D.GameBoard.pas"/>
         <DCCReference Include="src\Bomber4D.Classes.pas"/>
-        <RcItem Include="resources\sprites.png">
-            <ResourceType>RCDATA</ResourceType>
-            <ResourceId>SPRITES</ResourceId>
-        </RcItem>
         <RcItem Include="resources\map.dat">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>MAP</ResourceId>
+        </RcItem>
+        <RcItem Include="resources\sprites.png">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>SPRITES</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
