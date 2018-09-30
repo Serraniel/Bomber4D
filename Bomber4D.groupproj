@@ -6,6 +6,9 @@
         <Projects Include="Bomber4D.Client.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Bomber4D.GameEngine.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="Bomber4D_Client:Make">
         <MSBuild Projects="Bomber4D.Client.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Bomber4D_GameEngine">
+        <MSBuild Projects="Bomber4D.GameEngine.dproj"/>
+    </Target>
+    <Target Name="Bomber4D_GameEngine:Clean">
+        <MSBuild Projects="Bomber4D.GameEngine.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Bomber4D_GameEngine:Make">
+        <MSBuild Projects="Bomber4D.GameEngine.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Bomber4D_Client"/>
+        <CallTarget Targets="Bomber4D_Client;Bomber4D_GameEngine"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Bomber4D_Client:Clean"/>
+        <CallTarget Targets="Bomber4D_Client:Clean;Bomber4D_GameEngine:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Bomber4D_Client:Make"/>
+        <CallTarget Targets="Bomber4D_Client:Make;Bomber4D_GameEngine:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

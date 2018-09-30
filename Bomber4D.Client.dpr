@@ -6,8 +6,8 @@ uses
   Vcl.Forms,
   MainForm in 'src\MainForm.pas' {FrmMain},
   Bomber4D.Classes in 'src\Bomber4D.Classes.pas',
-  Bomber4D.GameEngine in 'src\Bomber4D.GameEngine.pas',
-  Bomber4D.GameRenderer in 'src\Bomber4D.GameRenderer.pas';
+  Bomber4D.GameBoard in 'src\Bomber4D.GameBoard.pas',
+  Bomber4D.GameController in 'src\Bomber4D.GameController.pas';
 
 {$R *.res}
 

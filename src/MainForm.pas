@@ -12,12 +12,12 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
-  Bomber4D.GameRenderer,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls,
+  Bomber4D.GameController;
 
 type
   TFrmMain = class(TForm)
-    pnlGame: TBMGamePanel;
+    GameController: TBMGameController;
     procedure FormShow(Sender: TObject);
   private
   public
@@ -47,7 +47,7 @@ end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
 begin
-  pnlGame.Init;
+  GameController.Init;
 end;
 
 end.

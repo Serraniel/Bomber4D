@@ -1,4 +1,4 @@
-unit Bomber4D.GameRenderer;
+unit Bomber4D.GameController;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   System.Classes,
-  Bomber4D.GameEngine,
+  Bomber4D.GameBoard,
   System.SysUtils,
   System.Generics.Collections,
   Vcl.Graphics;
@@ -14,7 +14,9 @@ uses
 type
   TBMSpriteDictionary = TObjectDictionary<UInt32, TBitMap>;
 
-  TBMGamePanel = class(TPanel)
+
+type
+  TBMGameController = class(TPanel)
   private
     FGameEngine: TBMGameEngine;
     FSpriteDictionary: TBMSpriteDictionary;
@@ -25,18 +27,25 @@ type
     destructor Destroy; override;
 
     procedure Init; virtual;
+  published
+    { Published-Deklarationen }
   end;
+
+procedure Register;
 
 implementation
 
 uses
-  System.Types,
+  System.Types;
 
-  Vcl.Imaging.pngimage;
+procedure Register;
+begin
+  RegisterComponents('Bomber4D', [TBMGameController]);
+end;
 
-{ TGamePanel }
+{ TBMGameController }
 
-constructor TBMGamePanel.Create(AOwner: TComponent);
+constructor TBMGameController.Create(AOwner: TComponent);
 begin
   inherited;
 
@@ -44,7 +53,7 @@ begin
   FGameEngine := TBMGameEngine.Create;
 end;
 
-destructor TBMGamePanel.Destroy;
+destructor TBMGameController.Destroy;
 begin
   FSpriteDictionary.Free;
   FGameEngine.Free;
@@ -52,7 +61,7 @@ begin
   inherited;
 end;
 
-procedure TBMGamePanel.Init;
+procedure TBMGameController.Init;
 var
   AStream: TResourceStream;
   ASpriteMap: TPicture;
@@ -96,7 +105,7 @@ begin
   FGameEngine.Init;
 end;
 
-procedure TBMGamePanel.Paint;
+procedure TBMGameController.Paint;
 var
   row: Integer;
   AColCount: Integer;
@@ -107,6 +116,8 @@ var
 begin
   inherited;
 
+  if not (csDesigning in ComponentState) then
+                                      begin
   if Length(FGameEngine.Board) = 0 then
     raise Exception.CreateFmt('Invalid map height [%d].', [FGameEngine.Board]);
 
@@ -129,6 +140,7 @@ begin
         FSpriteDictionary.Items[ASpriteID].Canvas, Rect(0, 0, 16, 16));
     end;
   end;
+                                      end;
 end;
 
 end.
