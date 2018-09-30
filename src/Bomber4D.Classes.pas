@@ -3,7 +3,8 @@ unit Bomber4D.Classes;
 interface
 
 uses
-  System.Types;
+  System.Types,
+  System.Generics.Collections;
 
 type
 
@@ -20,8 +21,9 @@ type
   public
     constructor Create; virtual;
 
+    class function MapInitializationID: UInt32; virtual; abstract;
+
     function HitType: TBMHitType; virtual; abstract;
-    function RenderLayer: UInt32; virtual; abstract;
     function SpriteIndex: TPoint; virtual;
 
     procedure Simulate(ATickCount: UInt32); virtual;
@@ -30,31 +32,36 @@ type
     property Guid: string read FGuid write FGuid;
   end;
 
+  TBMElementClass = class of TBMElement;
+
+  TBMElementClassList = TList<TBMElementClass>;
+
   TBMBackground = class(TBMElement)
   public
     function HitType: TBMHitType; override;
-    function RenderLayer: UInt32; override;
   end;
 
   TBMDirt = class(TBMBackground)
   public
+    class function MapInitializationID: UInt32; override;
+
     function SpriteIndex: TPoint; override;
   end;
 
   TBMGrass = class(TBMBackground)
   public
+    class function MapInitializationID: UInt32; override;
+
     function SpriteIndex: TPoint; override;
   end;
 
   TBMGameElement = class(TBMElement)
   public
-    function RenderLayer: UInt32; override;
   end;
 
   TBMCharacter = class(TBMGameElement)
   public
     function HitType: TBMHitType; override;
-    function RenderLayer: UInt32; override;
   end;
 
   TBMPlayer = class(TBMCharacter)
@@ -69,11 +76,15 @@ type
 
   TBMWall = class(TBMGameElement)
   public
+    class function MapInitializationID: UInt32; override;
+
     function SpriteIndex: TPoint; override;
   end;
 
   TBMWall2 = class(TBMGameElement)
   public
+    class function MapInitializationID: UInt32; override;
+
     function SpriteIndex: TPoint; override;
   end;
 
@@ -87,7 +98,7 @@ type
     FOwnerGuid: string;
     FLifeTimeTicks: Int64;
   public
-    constructor Create(ALifeTimeTicks: UInt32); virtual;
+    constructor Create(ALifeTimeTicks: UInt32); reintroduce;
 
     function HitType: TBMHitType; override;
     function SpriteIndex: TPoint; override;
@@ -98,21 +109,29 @@ type
     property LifeTimeTicks: Int64 read FLifeTimeTicks;
   end;
 
+function GlobalMapElements: TBMElementClassList;
+
 implementation
 
 uses
   System.SysUtils;
+
+var
+  __GlobalMapElements: TBMElementClassList;
+
+function GlobalMapElements: TBMElementClassList;
+begin
+  Result := __GlobalMapElements;
+
+  if not Assigned(Result) then
+    Result := TBMElementClassList.Create;
+end;
 
 { TBMCharacter }
 
 function TBMCharacter.HitType: TBMHitType;
 begin
   Result := htNone;
-end;
-
-function TBMCharacter.RenderLayer: UInt32;
-begin
-  Result := 2;
 end;
 
 { TBMPlayer }
@@ -133,6 +152,8 @@ end;
 
 constructor TBMBomb.Create(ALifeTimeTicks: UInt32);
 begin
+  inherited Create;
+
   FLifeTimeTicks := ALifeTimeTicks;
 end;
 
@@ -182,21 +203,10 @@ begin
   Result := htNone;
 end;
 
-function TBMBackground.RenderLayer: UInt32;
-begin
-  Result := 0;
-end;
-
-{ TBMGameElement }
-
-function TBMGameElement.RenderLayer: UInt32;
-begin
-  Result := 1;
-end;
-
 { TBMElement }
 
 constructor TBMElement.Create;
+
 var
   AGuid: TGUID;
 begin
@@ -217,12 +227,22 @@ end;
 
 { TBMDirt }
 
+class function TBMDirt.MapInitializationID: UInt32;
+begin
+  Result := $01;
+end;
+
 function TBMDirt.SpriteIndex: TPoint;
 begin
   Result := Point(0, 0);
 end;
 
 { TBMGrass }
+
+class function TBMGrass.MapInitializationID: UInt32;
+begin
+  Result := $02;
+end;
 
 function TBMGrass.SpriteIndex: TPoint;
 begin
@@ -231,6 +251,11 @@ end;
 
 { TBMWall }
 
+class function TBMWall.MapInitializationID: UInt32;
+begin
+  Result := $4C;
+end;
+
 function TBMWall.SpriteIndex: TPoint;
 begin
   Result := Point(11, 4);
@@ -238,9 +263,23 @@ end;
 
 { TBMWall2 }
 
+class function TBMWall2.MapInitializationID: UInt32;
+begin
+  Result := $5C;
+end;
+
 function TBMWall2.SpriteIndex: TPoint;
 begin
   Result := Point(11, 5);
 end;
+
+initialization
+
+GlobalMapElements.Add(TBMDirt);
+GlobalMapElements.Add(TBMGrass);
+GlobalMapElements.Add(TBMPlayer);
+GlobalMapElements.Add(TBMWall);
+GlobalMapElements.Add(TBMWall2);
+GlobalMapElements.Add(TBMBomb);
 
 end.
