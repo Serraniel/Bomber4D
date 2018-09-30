@@ -56,28 +56,28 @@ procedure TBMGamePanel.Init;
 var
   AStream: TResourceStream;
   ASpriteMap: TPicture;
-  ASpritBitMap: TBitMap;
+  ASpriteBitMap: TBitMap;
   row: Integer;
   col: Integer;
   ASprite: TBitMap;
 begin
   AStream := TResourceStream.Create(HInstance, 'SPRITES', RT_RCDATA);
   ASpriteMap := TPicture.Create;
-  ASpritBitMap := TBitMap.Create;
+  ASpriteBitMap := TBitMap.Create;
   try
     ASpriteMap.LoadFromStream(AStream);
-    ASpritBitMap.Assign(ASpriteMap.Graphic);
+    ASpriteBitMap.Assign(ASpriteMap.Graphic);
 
-    for row := 0 to (ASpritBitMap.Height div 16) - 1 do
+    for row := 0 to (ASpriteBitMap.Height div 16) - 1 do
     begin
-      for col := 0 to (ASpritBitMap.Width div 16) - 1 do
+      for col := 0 to (ASpriteBitMap.Width div 16) - 1 do
       begin
         ASprite := TBitMap.Create;
         try
           ASprite.Width := 16;
           ASprite.Height := 16;
 
-          ASprite.Canvas.CopyRect(Rect(0, 0, 16, 16), ASpritBitMap.Canvas,
+          ASprite.Canvas.CopyRect(Rect(0, 0, 16, 16), ASpriteBitMap.Canvas,
             Rect(col * 16, row * 16, col * 16 + 16, row * 16 + 16));
 
           FSpriteDictionary.Add(row * 16 + col, ASprite);
@@ -88,7 +88,7 @@ begin
       end;
     end;
   finally
-    ASpritBitMap.Free;
+    ASpriteBitMap.Free;
     ASpriteMap.Free;
     AStream.Free;
   end;
