@@ -65,12 +65,12 @@ begin
   inherited;
 
   if Length(FGameEngine.Board) = 0 then
-    raise Exception.CreateFmt('Invalid map height [%d].', [AData.Count]);
+    raise Exception.CreateFmt('Invalid map height [%d].', [FGameEngine.Board]);
 
   AColCount := Length(FGameEngine.Board[0]);
 
   if AColCount = 0 then
-    raise Exception.CreateFmt('Invalid map width [%d].', [AData.Count]);
+    raise Exception.CreateFmt('Invalid map width [%d].', [AColCount]);
 
   AStream := TResourceStream.Create(HInstance, 'SPRITES', RT_RCDATA);
   ASpriteMap := Tpicture.Create;
