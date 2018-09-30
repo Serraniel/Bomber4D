@@ -198,7 +198,7 @@ begin
       AViewColOffset := 4; // whoops, we have no left sprite :(
   end;
 
-  Result := Point(0 + AViewColOffset, 2 + FPlayerID);
+  Result := Point(0 + AViewColOffset, 1 + FPlayerID);
 end;
 
 { TBMObstacle }

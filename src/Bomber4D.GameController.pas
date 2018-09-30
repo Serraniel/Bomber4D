@@ -166,11 +166,11 @@ begin
   end;
 
   // initializing players
-  FPlayerFirst.PlayerID := 1;
+  FPlayerFirst.PlayerID := 0;
   FPlayerFirst.Location := Point(1, 1);
   FPlayerFirst.ViewDirection := dDown;
 
-  FPlayerSecond.PlayerID := 2;
+  FPlayerSecond.PlayerID := 1;
   FPlayerSecond.Location := Point(13, 11);
   FPlayerSecond.ViewDirection := dUp;
 
